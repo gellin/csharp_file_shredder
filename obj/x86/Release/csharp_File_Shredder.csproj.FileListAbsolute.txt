@@ -1,0 +1,14 @@
+X:\C#\csharpfileshredder\csharp_File_Shredder\bin\Release\csharp_File_Shredder.exe
+X:\C#\csharpfileshredder\csharp_File_Shredder\bin\Release\csharp_File_Shredder.pdb
+X:\C#\csharpfileshredder\csharp_File_Shredder\obj\x86\Release\csharp_File_Shredder.MainForm.resources
+X:\C#\csharpfileshredder\csharp_File_Shredder\obj\x86\Release\csharp_File_Shredder.Properties.Resources.resources
+X:\C#\csharpfileshredder\csharp_File_Shredder\obj\x86\Release\csharp_File_Shredder.csproj.GenerateResource.Cache
+X:\C#\csharpfileshredder\csharp_File_Shredder\obj\x86\Release\csharp_File_Shredder.exe
+X:\C#\csharpfileshredder\csharp_File_Shredder\obj\x86\Release\csharp_File_Shredder.pdb
+C:\Users\Owner\Desktop\csharpfileshredder\csharp_File_Shredder\obj\x86\Release\csharp_File_Shredder.exe
+C:\Users\Owner\Desktop\csharpfileshredder\csharp_File_Shredder\obj\x86\Release\csharp_File_Shredder.pdb
+C:\Users\Owner\Desktop\csharpfileshredder\csharp_File_Shredder\bin\Release\csharp_File_Shredder.exe
+C:\Users\Owner\Desktop\csharpfileshredder\csharp_File_Shredder\bin\Release\csharp_File_Shredder.pdb
+C:\Users\Owner\Desktop\csharpfileshredder\csharp_File_Shredder\obj\x86\Release\csharp_File_Shredder.MainForm.resources
+C:\Users\Owner\Desktop\csharpfileshredder\csharp_File_Shredder\obj\x86\Release\csharp_File_Shredder.Properties.Resources.resources
+C:\Users\Owner\Desktop\csharpfileshredder\csharp_File_Shredder\obj\x86\Release\csharp_File_Shredder.csproj.GenerateResource.Cache

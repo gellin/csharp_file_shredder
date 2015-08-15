@@ -1,0 +1,18 @@
+﻿[TODOS]
+	press run, it checks if file is in use, if so kills the application
+
+	renames the file and folders randomly X times, put the X on the GUI, and or create random lists of directory chains and or rename all lists of directory chains several times, then delete them
+
+	time taken column on the listview, populate it when done.
+
+	get number of processor cores, if there are multiple things to shred, spawn X number of threads; let x = total cpu cores. 
+
+	save config to an ini
+
+	make advanced options form with some shit
+
+	WIP: remove the element from listview as it completes / based on a check box in advanced options?
+
+	doesnt clear the names of the files, just the content :(
+
+	you can still drag stuff onto the listview or browse when its shredding and it wont take it into account, i dont think

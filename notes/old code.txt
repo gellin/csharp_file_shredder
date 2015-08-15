@@ -1,0 +1,184 @@
+﻿[OLD CRAP]
+
+//         protected override void OnPaintBackground(PaintEventArgs pevent)
+//         {
+//             base.OnPaintBackground(pevent);
+//         }
+
+//     public class CustomProgressBar : ProgressBar
+//     {
+//         public CustomProgressBar()
+//         {
+//             this.SetStyle(ControlStyles.DoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
+//         }
+// 
+//         const int WmPaint = 15;
+// 
+//         protected override void WndProc(ref Message m)
+//         {
+//             base.WndProc(ref m);
+// 
+//             switch (m.Msg)
+//             {
+//                 case WmPaint:
+//                     if (this.Value <= 100)
+//                     {
+//                         using (var graphics = Graphics.FromHwnd(Handle))
+//                         {
+//                             var textSize = graphics.MeasureString(this.Value.ToString("F00") + "%", new Font("Arial", (float)8.25, FontStyle.Regular));
+//                             graphics.DrawString(this.Value.ToString("F00") + "%", new Font("Arial", (float)8.25, FontStyle.Regular), Brushes.Black, (Width / 2) - (textSize.Width / 2), (Height / 2) - (textSize.Height / 2));
+//                         }
+//                     }
+//                     break;
+//             }
+//         }
+//     }
+
+
+//old code to remove deleted items
+
+//                 This should be activated to remove the items from the list view as they are deleted, 
+//                 if (value == 100 && listViewFiles.Items.Count > 0)
+//                 {
+//                     listViewFiles.Items.RemoveAt(0);
+//                     listViewFiles.Refresh();
+//                 }
+
+
+
+
+
+    public class pBar : ProgressBar
+    {
+        public pBar()
+        {
+            this.SetStyle(ControlStyles.DoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
+        }
+
+        const int WmPaint = 15;
+
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+
+            switch (m.Msg)
+            {
+                case WmPaint:
+                    if (this.Value <= 100)
+                    {
+                        using (var graphics = Graphics.FromHwnd(Handle))
+                        {
+                            var textSize = graphics.MeasureString(this.Value.ToString("F00") + "%", new Font("Arial", (float)8.25, FontStyle.Regular));
+                            graphics.DrawString(this.Value.ToString("F00") + "%", new Font("Arial", (float)8.25, FontStyle.Regular), Brushes.Black, (Width / 2) - (textSize.Width / 2), (Height / 2) - (textSize.Height / 2));
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
+            listView1.Items.Add(new ListViewItem(new string[] { "hi", "mad", "" }));
+
+            int i_loops = 0;
+            foreach (ListViewItem lvi in listView1.Items)
+            {
+                if (listView1.Items.Count - 1 == i_loops)
+                {
+                    ProgressBar p = new ProgressBar();
+                    p.Name = "nigger";
+                    p.Bounds = lvi.SubItems[2].Bounds;
+                    p.Height = 10;
+                    p.Width = 50;
+                    listView1.Controls.Add(p);
+                }
+
+//                 e.Cancel = true;
+//                 e.NewWidth = listView1.Columns[e.ColumnIndex].Width;
+
+
+            if (e.ColumnIndex.Equals(0))
+            {
+                colFileSize.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+            }
+            else if (e.ColumnIndex.Equals(1))
+            {
+                // 
+                int colwidth = colFileName.Width + colFileSize.Width;
+                int coldif = listViewFiles.Width - colwidth;
+                colFileSize.Width += coldif - 4;
+            }
+
+
+
+			        //         private void _embeddedControl_Click(object sender, EventArgs e)
+        //         {
+        //             // When a control is clicked the ListViewItem holding it is selected
+        //             foreach (EmbeddedControl ec in _embeddedControls)
+        //             {
+        //                 if (ec.Control == (Control)sender)
+        //                 {
+        //                     this.SelectedItems.Clear();
+        //                     ec.Item.Selected = true;
+        //                 }
+        //             }
+        //         }
+
+        //         public void RemoveEmbeddedControl(Control c)
+        //         {
+        //             if (c == null)
+        //                 throw new ArgumentNullException();
+        // 
+        //             foreach(EmbeddedControl ec in _embeddedControls)
+        //             {
+        //                 if (ec.Control == c)
+        //                 {
+        //                     this.Controls.Remove(c);
+        //                     _embeddedControls.Remove((object)ec);
+        //                     return;
+        //                 }
+        //             }
+        //             throw new Exception("Control not found!");
+        //         }
+
+        //         public void RemoveEmbeddedControl(Control c, int index)
+        //         {
+        //             if (c == null)
+        //                 throw new ArgumentNullException();
+        // 
+        //             this.Controls.Remove(c);
+        //             _embeddedControls.RemoveAt(index);
+        //         }
+
+
+
+		//             foreach (ListViewItem lvi in listViewFiles.SelectedItems)
+//             {
+//                 Control c = listViewFiles.GetEmbeddedControl(2, lvi.Index);
+//                 if (!c.Equals(null))
+//                     listViewFiles.RemoveEmbeddedControl(c);
+//             }
+//             foreach (ListViewItem lvi in listViewFiles.SelectedItems)
+//                 lvi.Remove();
+
+
+
+
+		//         private void RemoveListviewItem(ListViewItem lvi)
+//         {
+//             Control c = listViewFiles.GetEmbeddedControl(2, lvi.Index);
+//             if (!c.Equals(null))
+//                 listViewFiles.RemoveEmbeddedControl(c);
+//             lvi.Remove();
+//         }
+
+//         private void RemoveListviewItem(int index)
+//         {
+//             ListViewItem lvi = listViewFiles.Items[index];
+//             if (!lvi.Equals(null))
+//             {
+//                 Control c = listViewFiles.GetEmbeddedControl(2, index);
+//                 if (!c.Equals(null))
+//                     listViewFiles.RemoveEmbeddedControl(c);
+//                 lvi.Remove();
+//             }
+//         }
