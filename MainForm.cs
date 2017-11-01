@@ -124,6 +124,7 @@ namespace csharp_File_Shredder
             if (this.InvokeRequired)
             {
                 this.Invoke(new RemoveCompletedItems(RemoveCompletedItemsMethod), new Object[] { index } );
+                return;
             }
 
             if (listViewFiles.Items.Count == 0)
