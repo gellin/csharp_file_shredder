@@ -1,5 +1,5 @@
 ﻿#region Title
-     
+
 ///////////////////////////////////////////////
 //   ________        .__   .__   .__         //
 //  /  XPL0_/  ____  |  |  |  |  |__| ____   //
@@ -27,7 +27,7 @@ namespace csharp_File_Shredder
     public partial class MainForm : Form
     {
 
-#region Header
+        #region Header
 
         const int MAX_UNSIGNED_SHORT = 65535;
 
@@ -37,21 +37,21 @@ namespace csharp_File_Shredder
         [Flags]
         public enum ThreadArgs : int
         {
-            FILES       = 0, //array of strings that contain the full path to every file to delete
-            MODE        = 1, //0 = random data, 1 = zero'd
+            FILES = 0, //array of strings that contain the full path to every file to delete
+            MODE = 1, //0 = random data, 1 = zero'd
             BUFFER_SIZE = 2, //size of data to wipe per pass
-            TOTAL_SIZE  = 3, //total amount of data to wipe
-            PASSES      = 4,  //total number of passes
+            TOTAL_SIZE = 3, //total amount of data to wipe
+            PASSES = 4,  //total number of passes
         }
 
         //Passes to id dropdown lookup table
         [Flags]
         public enum PassesIndex : int
         {
-            DEFAULT     = 0,
-            DOD         = 1,
-            NSA         = 2,
-            GUTTMAN     = 3,
+            DEFAULT = 0,
+            DOD = 1,
+            NSA = 2,
+            GUTTMAN = 3,
         }
 
         //passes lookup table
@@ -59,8 +59,8 @@ namespace csharp_File_Shredder
         public enum Passes : int
         {
             DEFAULT = 1,
-            DOD     = 3,
-            NSA     = 7,
+            DOD = 3,
+            NSA = 7,
             GUTTMAN = 35,
         }
 
@@ -80,9 +80,9 @@ namespace csharp_File_Shredder
             cboxPasses.Refresh();
             cboxMethod.Refresh();
         }
-#endregion
+        #endregion
 
-#region User Functions
+        #region User Functions
 
         /***********************************************************************
          * 
@@ -121,9 +121,8 @@ namespace csharp_File_Shredder
 
         private void RemoveCompletedItemsMethod(int index)
         {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new RemoveCompletedItems(RemoveCompletedItemsMethod), new Object[] { index } );
+            if (this.InvokeRequired) {
+                this.Invoke(new RemoveCompletedItems(RemoveCompletedItemsMethod), new Object[] { index });
                 return;
             }
 
@@ -150,8 +149,7 @@ namespace csharp_File_Shredder
 
         private void CleaningComplete(UInt64 total_bytes_shredded, DateTime StartTime)
         {
-            if (this.InvokeRequired)
-            {
+            if (this.InvokeRequired) {
                 this.Invoke(new CleaningCompleteDelegate(CleaningComplete), new Object[] { total_bytes_shredded, StartTime });
                 return;
             }
@@ -180,14 +178,14 @@ namespace csharp_File_Shredder
 
         public void UpdateMainPBar(int value)
         {
-            if (this.InvokeRequired)
-            {
+            if (this.InvokeRequired) {
                 this.Invoke(new UpdatePBarDelegate(UpdateMainPBar), new Object[] { value });
                 return;
             }
 
-            if (pbarMain == null)
+            if (pbarMain == null) {
                 return;
+            }
 
             pbarMain.Value = ((int)value > 100) ? 100 : (int)value;
             pbarMain.Refresh();
@@ -204,28 +202,25 @@ namespace csharp_File_Shredder
 
         private void UpdateLVPBar(int index, int value)
         {
-            if (this.InvokeRequired)
-            {
+            if (this.InvokeRequired) {
                 this.Invoke(new UpdateLVPBarDelegate(UpdateLVPBar), new Object[] { index, value });
                 return;
             }
 
-            try
-            {
+            try {
                 if (listViewFiles.Items.Count < 0)
                     return;
 
                 CustomProgressBar pb = (CustomProgressBar)listViewFiles.GetEmbeddedControl(2, index);
 
-                if (pb == null)
+                if (pb == null) {
                     return;
+                }
 
                 pb.Value = ((int)value > 100) ? 100 : (int)value;
                 pb.Refresh();
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show("UpdateLVPBar " + ex.Message.ToString());
+            } catch (System.Exception ex) {
+                MessageBox.Show("UpdateLVPBar " + ex.Message);
             }
         }
 
@@ -257,8 +252,9 @@ namespace csharp_File_Shredder
 
         private void addProgressBarToListviewEx(int col, int row)
         {
-            if (listViewFiles == null)
+            if (listViewFiles == null) {
                 return;
+            }
 
             listViewFiles.AddEmbeddedControl(new CustomProgressBar(false), col, row);
             colProgressBar.Width = 100;
@@ -273,25 +269,24 @@ namespace csharp_File_Shredder
 
         private void RemoveSelectedListviewItems()
         {
-            if (listViewFiles.SelectedItems.Count <= 0)
+            if (listViewFiles.SelectedItems.Count <= 0) {
                 return;
+            }
 
-            foreach (ListViewItem lvi in listViewFiles.SelectedItems)
-            {
+            foreach (ListViewItem lvi in listViewFiles.SelectedItems) {
                 listViewFiles.RemoveItem(lvi.Index);
             }
         }
 
-#endregion
+        #endregion
 
-#region Events
+        #region Events
 
         private void btnShred_Click(object sender, EventArgs e)
         {
             ArrayList elements = Helper.GetListViewElements(listViewFiles, 0);
 
-            if (elements.Count > 0)
-            {
+            if (elements.Count > 0) {
                 btnShred.Enabled = false;
 
                 //build the arguments to pass to the thread that shreds.
@@ -305,8 +300,7 @@ namespace csharp_File_Shredder
                 UInt64 iBuffersize = 0;
                 if (UInt64.TryParse(txtboxBufferSize.Text, out iBuffersize))
                     worker_args.Add(iBuffersize);
-                else
-                {
+                else {
                     //default buffer
                     iBuffersize = MAX_UNSIGNED_SHORT;
                     worker_args.Add(iBuffersize);
@@ -318,12 +312,13 @@ namespace csharp_File_Shredder
 
                 //passes
                 int passes = 1;
-                if (cboxPasses.SelectedIndex.Equals(PassesIndex.DOD))
+                if (cboxPasses.SelectedIndex.Equals(PassesIndex.DOD)) {
                     passes = (int)Passes.DOD;
-                else if (cboxPasses.SelectedIndex.Equals(PassesIndex.NSA))
+                } else if (cboxPasses.SelectedIndex.Equals(PassesIndex.NSA)) {
                     passes = (int)Passes.NSA;
-                else if (cboxPasses.SelectedIndex.Equals(PassesIndex.GUTTMAN))
+                } else if (cboxPasses.SelectedIndex.Equals(PassesIndex.GUTTMAN)) {
                     passes = (int)Passes.GUTTMAN;
+                }
 
                 worker_args.Add(passes);
 
@@ -360,23 +355,21 @@ namespace csharp_File_Shredder
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-            foreach (string file in files)
-            {
-                if (Helper.IsDirectory(file))
-                {
+            foreach (string file in files) {
+                if (Helper.IsDirectory(file)) {
                     ArrayList sub_files = Helper.GetFileNamesInDirectory(file, true, true);
                     foreach (string s in sub_files)
                         addItemToListviewEx(s);
-                }
-                else
+                } else
                     addItemToListviewEx(file);
             }
         }
 
         private void listViewFiles_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, false)) {
                 e.Effect = DragDropEffects.All;
+            }
         }
 
         private void txtboxBufferSize_KeyPress(object sender, KeyPressEventArgs e)
@@ -393,9 +386,11 @@ namespace csharp_File_Shredder
         {
             string[] files = openFileDialog.FileNames;
 
-            if (files.Count() > 0)
-                foreach (string file in files)
+            if (files.Count() > 0) {
+                foreach (string file in files) {
                     addItemToListviewEx(file);
+                }
+            }
         }
 
         private void lblXPL0_MouseEnter(object sender, EventArgs e)
@@ -405,8 +400,9 @@ namespace csharp_File_Shredder
 
         private void lblXPL0_MouseLeave(object sender, EventArgs e)
         {
-            if (lblXPL0.ForeColor.Equals(Color.LimeGreen))
+            if (lblXPL0.ForeColor.Equals(Color.LimeGreen)) {
                 lblXPL0.ForeColor = Color.FromName("ControlText");
+            }
         }
 
         private void lblACCELA_MouseEnter(object sender, EventArgs e)
@@ -416,24 +412,20 @@ namespace csharp_File_Shredder
 
         private void lblACCELA_MouseLeave(object sender, EventArgs e)
         {
-            if (lblACCELA.ForeColor.Equals(Color.Fuchsia))
+            if (lblACCELA.ForeColor.Equals(Color.Fuchsia)) {
                 lblACCELA.ForeColor = Color.FromName("ControlText");
+            }
         }
 
         private void listViewFiles_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
         {
-            if (e.ColumnIndex.Equals(2))
-            {
+            if (e.ColumnIndex.Equals(2)) {
                 e.NewWidth = 100;
                 e.Cancel = true;
-            }
-            else if (e.ColumnIndex.Equals(1))
-            {
+            } else if (e.ColumnIndex.Equals(1)) {
                 e.NewWidth = 83;
                 e.Cancel = true;
-            }
-            else if (e.ColumnIndex.Equals(0))
-            {
+            } else if (e.ColumnIndex.Equals(0)) {
                 e.NewWidth = 275;
                 e.Cancel = true;
             }
@@ -457,9 +449,9 @@ namespace csharp_File_Shredder
             RemoveSelectedListviewItems();
         }
 
-#endregion
+        #endregion
 
-#region Shredder
+        #region Shredder
 
         /***********************************************************************
          * 
@@ -483,68 +475,55 @@ namespace csharp_File_Shredder
             total_data_to_write *= passes;
             DateTime StartTime = DateTime.Now;
 
-            foreach (string file in files)
-            {
+            foreach (string file in files) {
                 UInt64 amount_written_to_current_element = 0;
 
-                try
-                {
+                try {
                     FileInfo fi = new FileInfo(file);
 
-                    if (fi.Exists)
-                    {
-                        for (UInt32 i_pass = 1; i_pass <= passes; i_pass++)
-                        {
+                    if (fi.Exists) {
+                        for (UInt32 i_pass = 1; i_pass <= passes; i_pass++) {
                             UInt64 file_length = (UInt64)fi.Length;
                             total_bytes_shredded += file_length;
                             FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Write);
 
                             byte[] buff = new byte[buf_size];
 
-                            if (file_length > buf_size)
-                            {
+                            if (file_length > buf_size) {
                                 UInt64 total_iterations = file_length / buf_size;
                                 UInt32 current_iteration = 0;
-                                for (; current_iteration <= total_iterations; current_iteration++)
-                                {
+                                for (; current_iteration <= total_iterations; current_iteration++) {
                                     total_data_written += buf_size;
                                     amount_written_to_current_element += buf_size;
 
-                                    if (current_iteration % 10 == 0) //at 65kb per iteration, updated every 650kb 
-                                    {
+                                    if (current_iteration % 10 == 0) {
                                         UInt64 total_progress_percent = (total_data_written / total_data_to_write) * 100;
                                         UInt64 current_percent = (amount_written_to_current_element / ((UInt64)fi.Length * passes) * 100);
                                         UpdateMainPBar((int)total_progress_percent);
                                         UpdateLVPBar(file_index, (int)current_percent);
                                     }
 
-                                    if (mode.Equals(0))//random data
-                                    {
+                                    if (mode.Equals(0)) {
                                         RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider();
                                         rngCsp.GetBytes(buff);
                                     }
                                     fs.Write(buff, 0, (int)buf_size);
                                 }
-                            }
-                            else //if( file_length <= buf_size ) 
-                            {
+                            } else {
                                 fs.Write(buff, 0, (int)buf_size);
                             }
                             fs.Flush();
                             fs.Close();
 
                             //UNCOMMENT THESE TO DELETE FILE
-                            if (i_pass.Equals(passes))
+                            if (i_pass.Equals(passes)) {
                                 fi.Delete();
+                            }
                         }
                     }
-                }
-                catch (System.IO.IOException ioException)
-                {
+                } catch (System.IO.IOException ioException) {
                     MessageBox.Show("FileShredderThread " + ioException.Message.ToString());
-                }
-                catch (Exception except)
-                {
+                } catch (Exception except) {
                     MessageBox.Show("FileShredderThread " + except.Message.ToString());
                 }
                 RemoveCompletedItemsMethod(file_index);
@@ -552,10 +531,10 @@ namespace csharp_File_Shredder
             }
             CleaningComplete(total_bytes_shredded, StartTime);
         }
-#endregion
+        #endregion
     }
 
-#region CustomProgressBar
+    #region CustomProgressBar
 
     /***********************************************************************
     * 
@@ -571,11 +550,11 @@ namespace csharp_File_Shredder
 
         public void setStyle()
         {
-            this.SetStyle(ControlStyles.DoubleBuffer 
-                        | ControlStyles.AllPaintingInWmPaint 
-                        | ControlStyles.UserPaint 
-                        | ControlStyles.OptimizedDoubleBuffer 
-                        | ControlStyles.ResizeRedraw 
+            this.SetStyle(ControlStyles.DoubleBuffer
+                        | ControlStyles.AllPaintingInWmPaint
+                        | ControlStyles.UserPaint
+                        | ControlStyles.OptimizedDoubleBuffer
+                        | ControlStyles.ResizeRedraw
                         | ControlStyles.SupportsTransparentBackColor, true);
         }
 
@@ -597,16 +576,16 @@ namespace csharp_File_Shredder
             Rectangle bounds = this.ClientRectangle;
             ProgressBarRenderer.DrawHorizontalBar(e.Graphics, bounds);
 
-            if (this.Value > 0)
-            {
+            if (this.Value > 0) {
                 Rectangle clip = new Rectangle((int)bounds.X + 1, (int)bounds.Y + 1, (int)(((float)this.Value / (float)this.Maximum) * (float)bounds.Width - 2), (int)bounds.Height - 2);
                 ProgressBarRenderer.DrawHorizontalChunks(e.Graphics, clip);
 
-                if (bDrawText)
+                if (bDrawText) {
                     e.Graphics.DrawString(this.Value.ToString("F00") + "%", new Font("Lucida Console", (float)8.25, FontStyle.Regular), Brushes.Black, new PointF(Width / 2 - 13, Height / 2 - 6));
+                }
             }
         }
     }
-#endregion
+    #endregion
 }
 

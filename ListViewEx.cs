@@ -236,6 +236,8 @@ namespace csharp_File_Shredder
                         ec.Control.Bounds = rc;
                     }
                     break;
+                default:
+                break;
             }
             base.WndProc(ref m);
         }
