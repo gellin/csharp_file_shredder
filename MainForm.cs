@@ -195,7 +195,7 @@ namespace csharp_File_Shredder
                     return;
                 }
 
-                pb.Value = ((int)value > 100) ? 100 : (int)value;
+                pb.Value = (value > 100) ? 100 : value;
                 pb.Refresh();
             } catch (System.Exception ex) {
                 MessageBox.Show("UpdateLVPBar " + ex.Message);
@@ -275,8 +275,7 @@ namespace csharp_File_Shredder
                 worker_args.Add(mode);                      //mode
 
                 //buffer size
-                UInt64 iBuffersize = 0;
-                if (UInt64.TryParse(txtboxBufferSize.Text, out iBuffersize)) {
+                if (UInt64.TryParse(txtboxBufferSize.Text, out ulong iBuffersize)) {
                     worker_args.Add(iBuffersize);
                 } else {
                     //default buffer
@@ -541,7 +540,6 @@ namespace csharp_File_Shredder
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            //base.OnPaint(e);
             Rectangle bounds = this.ClientRectangle;
             ProgressBarRenderer.DrawHorizontalBar(e.Graphics, bounds);
 
