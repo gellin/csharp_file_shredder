@@ -126,11 +126,13 @@ namespace csharp_File_Shredder
                 return;
             }
 
-            if (listViewFiles.Items.Count == 0)
+            if (listViewFiles.Items.Count == 0) {
                 return;
+            }
 
-            if (lastFileWipedIndex == index)
+            if (lastFileWipedIndex == index) {
                 return;
+            }
 
             lastFileWipedIndex = index;
 
@@ -208,8 +210,9 @@ namespace csharp_File_Shredder
             }
 
             try {
-                if (listViewFiles.Items.Count < 0)
+                if (listViewFiles.Items.Count < 0) {
                     return;
+                }
 
                 CustomProgressBar pb = (CustomProgressBar)listViewFiles.GetEmbeddedControl(2, index);
 
@@ -298,9 +301,9 @@ namespace csharp_File_Shredder
 
                 //buffer size
                 UInt64 iBuffersize = 0;
-                if (UInt64.TryParse(txtboxBufferSize.Text, out iBuffersize))
+                if (UInt64.TryParse(txtboxBufferSize.Text, out iBuffersize)) {
                     worker_args.Add(iBuffersize);
-                else {
+                } else {
                     //default buffer
                     iBuffersize = MAX_UNSIGNED_SHORT;
                     worker_args.Add(iBuffersize);
@@ -358,10 +361,12 @@ namespace csharp_File_Shredder
             foreach (string file in files) {
                 if (Helper.IsDirectory(file)) {
                     ArrayList sub_files = Helper.GetFileNamesInDirectory(file, true, true);
-                    foreach (string s in sub_files)
+                    foreach (string s in sub_files) {
                         addItemToListviewEx(s);
-                } else
+                    }
+                } else {
                     addItemToListviewEx(file);
+                }
             }
         }
 
@@ -375,11 +380,6 @@ namespace csharp_File_Shredder
         private void txtboxBufferSize_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
-        }
-
-        private void chkShowFullPath_CheckedChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void openFileDialog1_FileOk(object sender, EventArgs e)

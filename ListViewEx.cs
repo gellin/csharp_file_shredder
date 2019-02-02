@@ -23,9 +23,6 @@ namespace csharp_File_Shredder
         private const int LVM_FIRST = 0x1000;
         private const int LVM_GETCOLUMNORDERARRAY = (LVM_FIRST + 59);
 
-        // Windows Messages
-        private const int WM_PAINT = 0x000F;
-
 #endregion
 
         private struct EmbeddedControl
@@ -66,15 +63,18 @@ namespace csharp_File_Shredder
         {
             Rectangle subItemRect = Rectangle.Empty;
 
-            if (Item == null)
+            if (Item == null) {
                 throw new ArgumentNullException("Item");
+            }
 
             int[] order = GetColumnOrder();
-            if (order == null) // No Columns
+            if (order == null) {
                 return subItemRect;
+            }
 
-            if (SubItem >= order.Length)
+            if (SubItem >= order.Length) {
                 throw new IndexOutOfRangeException("SubItem " + SubItem + " out of range");
+            }
 
             // Retrieve the bounds of the entire ListViewItem (all subitems)
             Rectangle lviBounds = Item.GetBounds(ItemBoundsPortion.Entire);
@@ -87,8 +87,10 @@ namespace csharp_File_Shredder
             for (i = 0; i < order.Length; i++)
             {
                 col = this.Columns[order[i]];
-                if (col.Index == SubItem)
+                if (col.Index == SubItem) {
                     break;
+                }
+
                 subItemX += col.Width;
             }
 
@@ -104,10 +106,13 @@ namespace csharp_File_Shredder
 
         public void AddEmbeddedControl(Control c, int col, int row, DockStyle dock)
         {
-            if (c == null)
+            if (c == null) {
                 throw new ArgumentNullException();
-            if (col >= Columns.Count || row >= Items.Count)
+            }
+
+            if (col >= Columns.Count || row >= Items.Count) {
                 throw new ArgumentOutOfRangeException();
+            }
 
             EmbeddedControl ec;
             ec.Control = c;
@@ -128,8 +133,9 @@ namespace csharp_File_Shredder
         {
             EmbeddedControl ec = (EmbeddedControl)_embeddedControls[0];
 
-            if (ec.Control == null || ec.Item == null)
+            if (ec.Control == null || ec.Item == null) {
                 throw new ArgumentNullException();
+            }
 
             this.Controls.Remove(ec.Control);
             _embeddedControls.Remove((object)ec);
@@ -140,8 +146,9 @@ namespace csharp_File_Shredder
         {
             EmbeddedControl ec = (EmbeddedControl)_embeddedControls[index];
 
-            if (ec.Control == null || ec.Item == null)
+            if (ec.Control == null || ec.Item == null) {
                 throw new ArgumentNullException();
+            }
 
             this.Controls.Remove(ec.Control);
             _embeddedControls.Remove((object)ec);
@@ -162,9 +169,9 @@ namespace csharp_File_Shredder
         public Control GetEmbeddedControl(int col, int row)
         {
             foreach (EmbeddedControl ec in _embeddedControls)
-                if (ec.Row == row && ec.Column == col)
+                if (ec.Row == row && ec.Column == col) {
                     return ec.Control;
-
+                }
             return null;
         }
 
@@ -178,8 +185,9 @@ namespace csharp_File_Shredder
             set
             {
                 // Embedded controls are rendered only when we're in Details mode
-                foreach (EmbeddedControl ec in _embeddedControls)
+                foreach (EmbeddedControl ec in _embeddedControls) {
                     ec.Control.Visible = (value == View.Details);
+                }
 
                 base.View = value;
             }
@@ -187,11 +195,13 @@ namespace csharp_File_Shredder
 
         protected override void WndProc(ref Message m)
         {
+            const int WM_PAINT = 0x000F;
             switch (m.Msg)
             {
                 case WM_PAINT:
-                    if (View != View.Details)
+                    if (View != View.Details) {
                         break;
+                     }
 
                     // Calculate the position of all embedded controls
                     foreach (EmbeddedControl ec in _embeddedControls)

@@ -112,7 +112,6 @@
             this.chkShowFullPath.Text = "Show Full Path";
             this.chkShowFullPath.UseVisualStyleBackColor = true;
             this.chkShowFullPath.Visible = false;
-            this.chkShowFullPath.CheckedChanged += new System.EventHandler(this.chkShowFullPath_CheckedChanged);
             // 
             // txtboxBufferSize
             // 
