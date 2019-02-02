@@ -198,8 +198,6 @@ namespace csharp_File_Shredder
                     }
 
                     switch (ec.Dock) {
-                        case DockStyle.Fill:
-                        break;
                         case DockStyle.Top:
                         rc.Height = ec.Control.Height;
                         break;
@@ -217,6 +215,7 @@ namespace csharp_File_Shredder
                         case DockStyle.None:
                         rc.Size = ec.Control.Size;
                         break;
+                        case DockStyle.Fill:
                         default:
                         break;
                     }
