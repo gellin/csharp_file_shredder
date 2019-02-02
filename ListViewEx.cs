@@ -25,20 +25,18 @@ namespace csharp_File_Shredder
 
         #endregion
 
-        private struct EmbeddedControl
+        private struct EmbeddedControl : IEquatable<EmbeddedControl>
         {
             public Control Control;
             public int Column;
             public int Row;
             public DockStyle Dock;
             public ListViewItem Item;
+
+            public bool Equals(EmbeddedControl obj) => (obj is EmbeddedControl embededControl) && embededControl.Control == Control;
         }
 
         private ArrayList _embeddedControls = new ArrayList();
-
-        public ListViewEx()
-        {
-        }
 
         protected int[] GetColumnOrder()
         {
@@ -121,9 +119,6 @@ namespace csharp_File_Shredder
             ec.Item = Items[row];
 
             _embeddedControls.Add(ec);
-
-            // Add a Click event handler to select the ListView row when an embedded control is clicked
-            //c.Click += new EventHandler(_embeddedControl_Click);
 
             this.Controls.Add(c);
         }
@@ -229,6 +224,8 @@ namespace csharp_File_Shredder
                         break;
                         case DockStyle.None:
                         rc.Size = ec.Control.Size;
+                        break;
+                        default:
                         break;
                     }
 
