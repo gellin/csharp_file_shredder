@@ -215,9 +215,6 @@ namespace csharp_File_Shredder
                         case DockStyle.None:
                         rc.Size = ec.Control.Size;
                         break;
-                        case DockStyle.Fill:
-                        default:
-                        break;
                     }
 
                     // Set embedded control's bounds
