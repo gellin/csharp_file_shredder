@@ -125,15 +125,7 @@ namespace csharp_File_Shredder
 
         public void RemoveFirst()
         {
-            EmbeddedControl ec = (EmbeddedControl)_embeddedControls[0];
-
-            if (ec.Control == null || ec.Item == null) {
-                throw new ArgumentNullException();
-            }
-
-            this.Controls.Remove(ec.Control);
-            _embeddedControls.Remove((object)ec);
-            ec.Item.Remove();
+            RemoveItem(0);
         }
 
         public void RemoveItem(int index)
