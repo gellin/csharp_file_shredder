@@ -21,7 +21,7 @@ using System.Windows.Forms;
 
 namespace csharp_File_Shredder
 {
-    class Helper
+    static class Helper
     {
         public static ArrayList GetListViewElements(ListView lv, int i)
         {
@@ -67,7 +67,7 @@ namespace csharp_File_Shredder
                     }
                 }
             } catch (System.Exception ex) {
-                MessageBox.Show(ex.Message.ToString());
+                MessageBox.Show(ex.Message);
             }
             return "0kB";
         }

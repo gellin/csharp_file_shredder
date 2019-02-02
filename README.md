@@ -6,7 +6,6 @@ File Shredder WIP in C# circa 2011
 
 #Life Cycle
 
-
 #Credits
-* Backend development - Gellin/XPL0
-* GUI tweaks and stamp of approval - Accela
+  * Backend development - Gellin/XPL0
+  * GUI tweaks and stamp of approval - Accela

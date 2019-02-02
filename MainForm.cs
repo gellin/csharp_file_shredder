@@ -75,7 +75,9 @@ namespace csharp_File_Shredder
             InitializeComponent();
 
             lastFileWipedIndex = -1;
-            cboxPasses.DropDownStyle = cboxMethod.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            cboxPasses.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboxMethod.DropDownStyle = ComboBoxStyle.DropDownList;
 
             cboxPasses.Refresh();
             cboxMethod.Refresh();
@@ -83,20 +85,6 @@ namespace csharp_File_Shredder
         #endregion
 
         #region User Functions
-
-        /***********************************************************************
-         * 
-         * @method: listview_alignright
-         * @notes: not too sure :\
-         * 
-         ************************************************************************/
-
-        private void listview_alignright()
-        {
-            colFileSize.Width = 83;
-            colProgressBar.Width = 100;
-            colFileName.Width = (listViewFiles.Width - 25) - (colFileSize.Width + colProgressBar.Width);
-        }
 
         /***********************************************************************
          * 
@@ -189,7 +177,7 @@ namespace csharp_File_Shredder
                 return;
             }
 
-            pbarMain.Value = ((int)value > 100) ? 100 : (int)value;
+            pbarMain.Value = (value > 100) ? 100 : value;
             pbarMain.Refresh();
         }
 
@@ -431,17 +419,11 @@ namespace csharp_File_Shredder
             }
         }
 
-        private void listViewFiles_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
-        {
-            //if (e.ColumnIndex.Equals(0))
-            //{
-            //    colFileSize.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
-            //}
-        }
-
         private void listViewFiles_SizeChanged(object sender, EventArgs e)
         {
-            listview_alignright();
+            colFileSize.Width = 83;
+            colProgressBar.Width = 100;
+            colFileName.Width = (listViewFiles.Width - 25) - (colFileSize.Width + colProgressBar.Width);
         }
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -522,9 +504,9 @@ namespace csharp_File_Shredder
                         }
                     }
                 } catch (System.IO.IOException ioException) {
-                    MessageBox.Show("FileShredderThread " + ioException.Message.ToString());
+                    MessageBox.Show("FileShredderThread " + ioException.Message);
                 } catch (Exception except) {
-                    MessageBox.Show("FileShredderThread " + except.Message.ToString());
+                    MessageBox.Show("FileShredderThread " + except.Message);
                 }
                 RemoveCompletedItemsMethod(file_index);
                 file_index++;
@@ -546,9 +528,9 @@ namespace csharp_File_Shredder
 
     public class CustomProgressBar : ProgressBar
     {
-        public bool bDrawText;
+        private readonly bool bDrawText;
 
-        public void setStyle()
+        private void SetStyle()
         {
             this.SetStyle(ControlStyles.DoubleBuffer
                         | ControlStyles.AllPaintingInWmPaint
@@ -560,13 +542,13 @@ namespace csharp_File_Shredder
 
         public CustomProgressBar()
         {
-            setStyle();
+            SetStyle();
             bDrawText = true;
         }
 
         public CustomProgressBar(bool drawtext)
         {
-            setStyle();
+            SetStyle();
             bDrawText = drawtext;
         }
 

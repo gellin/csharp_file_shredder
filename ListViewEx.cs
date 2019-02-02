@@ -14,7 +14,7 @@ namespace csharp_File_Shredder
 
     public class ListViewEx : ListView
     {
-#region Interop-Defines
+        #region Interop-Defines
 
         [DllImport("user32.dll")]
         private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wPar, IntPtr lPar);
@@ -23,7 +23,7 @@ namespace csharp_File_Shredder
         private const int LVM_FIRST = 0x1000;
         private const int LVM_GETCOLUMNORDERARRAY = (LVM_FIRST + 59);
 
-#endregion
+        #endregion
 
         private struct EmbeddedControl
         {
@@ -73,7 +73,7 @@ namespace csharp_File_Shredder
             }
 
             if (SubItem >= order.Length) {
-                throw new IndexOutOfRangeException("SubItem " + SubItem + " out of range");
+                throw new ArgumentOutOfRangeException("SubItem " + SubItem + " out of range");
             }
 
             // Retrieve the bounds of the entire ListViewItem (all subitems)
@@ -84,8 +84,7 @@ namespace csharp_File_Shredder
             // Because the columns can be reordered we have to use Columns[order[i]] instead of Columns[i] !
             ColumnHeader col;
             int i;
-            for (i = 0; i < order.Length; i++)
-            {
+            for (i = 0; i < order.Length; i++) {
                 col = this.Columns[order[i]];
                 if (col.Index == SubItem) {
                     break;
@@ -120,7 +119,7 @@ namespace csharp_File_Shredder
             ec.Row = row;
             ec.Dock = dock;
             ec.Item = Items[row];
-           
+
             _embeddedControls.Add(ec);
 
             // Add a Click event handler to select the ListView row when an embedded control is clicked
@@ -157,33 +156,30 @@ namespace csharp_File_Shredder
 
         public void RemoveAllControls()
         {
-            foreach (EmbeddedControl ec in _embeddedControls)
-            {
+            foreach (EmbeddedControl ec in _embeddedControls) {
                 this.Controls.Remove(ec.Control);
                 ec.Item.Remove();
             }
-            
             _embeddedControls.RemoveRange(0, _embeddedControls.Count);
         }
 
         public Control GetEmbeddedControl(int col, int row)
         {
-            foreach (EmbeddedControl ec in _embeddedControls)
+            foreach (EmbeddedControl ec in _embeddedControls) {
                 if (ec.Row == row && ec.Column == col) {
                     return ec.Control;
                 }
+            }
             return null;
         }
 
         [DefaultValue(View.LargeIcon)]
         public new View View
         {
-            get
-            {
+            get {
                 return base.View;
             }
-            set
-            {
+            set {
                 // Embedded controls are rendered only when we're in Details mode
                 foreach (EmbeddedControl ec in _embeddedControls) {
                     ec.Control.Visible = (value == View.Details);
@@ -196,58 +192,49 @@ namespace csharp_File_Shredder
         protected override void WndProc(ref Message m)
         {
             const int WM_PAINT = 0x000F;
-            switch (m.Msg)
-            {
-                case WM_PAINT:
-                    if (View != View.Details) {
-                        break;
-                     }
+            if (m.Msg == WM_PAINT) {
+                if (View != View.Details) {
+                    return;
+                }
 
-                    // Calculate the position of all embedded controls
-                    foreach (EmbeddedControl ec in _embeddedControls)
+                // Calculate the position of all embedded controls
+                foreach (EmbeddedControl ec in _embeddedControls) {
+                    Rectangle rc = this.GetSubItemBounds(ec.Item, ec.Column);
+
+                    if ((this.HeaderStyle != ColumnHeaderStyle.None) &&
+                        (rc.Top < this.Font.Height)) // Control overlaps ColumnHeader
                     {
-                        Rectangle rc = this.GetSubItemBounds(ec.Item, ec.Column);
-
-                        if ((this.HeaderStyle != ColumnHeaderStyle.None) &&
-                            (rc.Top < this.Font.Height)) // Control overlaps ColumnHeader
-                        {
-                            ec.Control.Visible = false;
-                            continue;
-                        }
-                        else
-                        {
-                            ec.Control.Visible = true;
-                        }
-
-                        switch (ec.Dock)
-                        {
-                            case DockStyle.Fill:
-                                break;
-                            case DockStyle.Top:
-                                rc.Height = ec.Control.Height;
-                                break;
-                            case DockStyle.Left:
-                                rc.Width = ec.Control.Width;
-                                break;
-                            case DockStyle.Bottom:
-                                rc.Offset(0, rc.Height - ec.Control.Height);
-                                rc.Height = ec.Control.Height;
-                                break;
-                            case DockStyle.Right:
-                                rc.Offset(rc.Width - ec.Control.Width, 0);
-                                rc.Width = ec.Control.Width;
-                                break;
-                            case DockStyle.None:
-                                rc.Size = ec.Control.Size;
-                                break;
-                        }
-
-                        // Set embedded control's bounds
-                        ec.Control.Bounds = rc;
+                        ec.Control.Visible = false;
+                        continue;
+                    } else {
+                        ec.Control.Visible = true;
                     }
-                    break;
-                default:
-                break;
+
+                    switch (ec.Dock) {
+                        case DockStyle.Fill:
+                        break;
+                        case DockStyle.Top:
+                        rc.Height = ec.Control.Height;
+                        break;
+                        case DockStyle.Left:
+                        rc.Width = ec.Control.Width;
+                        break;
+                        case DockStyle.Bottom:
+                        rc.Offset(0, rc.Height - ec.Control.Height);
+                        rc.Height = ec.Control.Height;
+                        break;
+                        case DockStyle.Right:
+                        rc.Offset(rc.Width - ec.Control.Width, 0);
+                        rc.Width = ec.Control.Width;
+                        break;
+                        case DockStyle.None:
+                        rc.Size = ec.Control.Size;
+                        break;
+                    }
+
+                    // Set embedded control's bounds
+                    ec.Control.Bounds = rc;
+                }
             }
             base.WndProc(ref m);
         }

@@ -393,7 +393,6 @@
             this.listViewFiles.TabIndex = 0;
             this.listViewFiles.UseCompatibleStateImageBehavior = false;
             this.listViewFiles.View = System.Windows.Forms.View.Details;
-            this.listViewFiles.ColumnWidthChanged += new System.Windows.Forms.ColumnWidthChangedEventHandler(this.listViewFiles_ColumnWidthChanged);
             this.listViewFiles.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.listViewFiles_ColumnWidthChanging);
             this.listViewFiles.SizeChanged += new System.EventHandler(this.listViewFiles_SizeChanged);
             this.listViewFiles.DragDrop += new System.Windows.Forms.DragEventHandler(this.listViewFiles_DragDrop);
