@@ -88,18 +88,18 @@ namespace csharp_File_Shredder
             if (miliseconds < 1000) {
                 return miliseconds.ToString("F01") + " ms";
             } else {
-                miliseconds /= 1000;
+                double tempMiliseconds = miliseconds / 1000;
 
-                if (miliseconds < 60) {
-                    return miliseconds.ToString("F01") + " s";
+                if (tempMiliseconds < 60) {
+                    return tempMiliseconds.ToString("F01") + " s";
                 } else {
-                    miliseconds /= 60;
+                    tempMiliseconds /= 60;
 
-                    if (miliseconds < 60) {
-                        return miliseconds.ToString("F01") + " m";
+                    if (tempMiliseconds < 60) {
+                        return tempMiliseconds.ToString("F01") + " m";
                     } else {
-                        miliseconds /= 60;
-                        return miliseconds.ToString("F01") + " h";
+                        tempMiliseconds /= 60;
+                        return tempMiliseconds.ToString("F01") + " h";
                     }
                 }
             }
