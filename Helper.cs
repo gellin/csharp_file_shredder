@@ -44,7 +44,7 @@ namespace csharp_File_Shredder
                 if (fileSize < 1024) {
                     return fileSize.ToString("F01") + " kB";
                 } else {
-                    double tempFileSize = fileSize /= 1024.0;
+                    double tempFileSize = fileSize / 1024.0;
 
                     if (tempFileSize < 1024) {
                         return tempFileSize.ToString("F01") + " MB";
@@ -72,7 +72,7 @@ namespace csharp_File_Shredder
             if (size < 1024) {
                 return size.ToString("F01") + " kB";
             } else {
-                double tempSize = size /= 1024.0;
+                double tempSize = size / 1024.0;
 
                 if (tempSize < 1024) {
                     return tempSize.ToString("F01") + " MB";
